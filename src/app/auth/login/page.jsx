@@ -20,18 +20,20 @@ const page = () => {
     const router = useRouter();
 
     const onSubmit = async data => {
-        signIn('credentials', {
-            email: data.email,
-            password: data.password,
-            redirect: false,
-            callbackUrl: '/'
-        }).then((res) => {
-            if (res?.error) {
-                setError('email', { message: "Something went wrong.", type: "error" })
-            } else {
-                router.push('/');
+        try {
+            const res = await signIn("credentials", {
+                email: data.email,
+                password: data.password,
+                redirect: false
+            });
+            if (!res.error) {
+                setError("Invalid credentials");
+                return;
             }
-        })
+            router.replace('/');
+        } catch (error) {
+            console.log(error);
+        }
 
     };
 

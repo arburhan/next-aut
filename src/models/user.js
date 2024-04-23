@@ -1,7 +1,7 @@
-const { default: mongoose } = require("mongoose");
+import mongoose, { Schema, models } from "mongoose";
 
 // schema design
-const userSchema = mongoose.Schema({
+const userSchema = Schema({
     name: {
         type: String,
         required: [true, "User name must required"],
@@ -31,6 +31,6 @@ userSchema.methods.logger = function () {
 
 // SCHEMA -> MODEL -> QUERY
 
-const User = mongoose.model('user', userSchema)
+const User = models.User || mongoose.model("User", userSchema);
 
 module.exports = User;
