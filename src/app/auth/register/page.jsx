@@ -4,8 +4,11 @@ import React, { useState } from 'react';
 import { Button, Input } from "@nextui-org/react";
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { redirect } from 'next/navigation';
 
-const page = () => {
+const page = async () => {
     const {
         register,
         handleSubmit,
@@ -13,6 +16,12 @@ const page = () => {
         formState: { errors },
     } = useForm();
     const [message, setMessage] = useState(null);
+
+    // session for redirect
+    const session = await getServerSession(authOptions);
+    if (session) redirect("/dashboard");
+
+
     const onSubmit = async data => {
         console.log(data);
         const url = process.env.NEXT_PUBLIC_API_URL + `/user`;

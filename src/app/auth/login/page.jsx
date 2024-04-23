@@ -26,11 +26,11 @@ const page = () => {
                 password: data.password,
                 redirect: false
             });
-            if (!res.error) {
+            if (res.error) {
                 setError("Invalid credentials");
                 return;
             }
-            router.replace('/');
+            router.replace("/dashboard");
         } catch (error) {
             console.log(error);
         }
